@@ -90,7 +90,7 @@ async function main() {
   data.failStreak = Object.fromEntries(['gosurf', 'windguru'].map(k => [k, data[k].ok ? 0 : ((previous?.failStreak?.[k]) || 0) + 1]));
   await writeFile(OUT, JSON.stringify(data, null, 1));
   log('wrote data.json; failed sources:', failed.join(', ') || 'none');
-  const stuck = Object.entries(data.failStreak).filter(([, n]) => n >= 6).map(([k]) => k);
+  const stuck = Object.entries(data.failStreak).filter(([, n]) => n >= 4).map(([k]) => k);
   if (stuck.length) { console.error(`Sources failing for ~2 days: ${stuck.join(', ')} (page is using the Open-Meteo backup)`); process.exitCode = 1; }
 }
 

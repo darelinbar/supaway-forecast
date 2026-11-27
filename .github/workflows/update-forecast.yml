@@ -2,10 +2,10 @@ name: Update forecast
 
 on:
   schedule:
-    # 17:00, 18:00 and 19:00 Israel winter time (UTC+2). Each run refreshes tomorrow's forecast; later runs are retries.
-    - cron: '0 15 * * *'
-    - cron: '0 16 * * *'
-    - cron: '0 17 * * *'
+    # Target: about 11:00 and 19:00 Israel time. GitHub cron runs in UTC and Israel moves between
+    # UTC+2 and UTC+3, so both possible UTC times are scheduled and the "Check time" step skips the wrong one.
+    # Starting at :45 leaves room for GitHub's usual scheduling delay.
+    - cron: '45 7,8,15,16 * * *'
   workflow_dispatch:
   # On pull requests the fetch runs as a test only; nothing is committed.
   pull_request:
@@ -22,20 +22,35 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Check time
+        id: when
+        run: |
+          now=$(TZ=Asia/Jerusalem date +%H%M); now=$((10#$now))
+          if [ "${{ github.event_name }}" != "schedule" ] || { [ $now -ge 1030 ] && [ $now -lt 1200 ]; } || { [ $now -ge 1830 ] && [ $now -lt 2000 ]; }; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "Israel time is $now; this is the other daylight-saving slot, skipping."; echo "run=no" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.when.outputs.run == 'yes'
       - uses: actions/setup-node@v4
+        if: steps.when.outputs.run == 'yes'
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
+        if: steps.when.outputs.run == 'yes'
       - run: npx playwright install --with-deps chromium
+        if: steps.when.outputs.run == 'yes'
       - name: Fetch forecast
+        if: steps.when.outputs.run == 'yes'
         id: fetch
         run: node scripts/fetch.mjs
         continue-on-error: true
       - name: Show fetched data
+        if: steps.when.outputs.run == 'yes'
         run: head -c 3000 docs/data.json
       - name: Commit new data
-        if: github.event_name != 'pull_request'
+        if: steps.when.outputs.run == 'yes' && (github.event_name != 'pull_request')
         run: |
           if git diff --quiet docs/data.json; then echo "no change"; exit 0; fi
           git config user.name "forecast-bot"
@@ -44,7 +59,7 @@ jobs:
           git commit -m "Update forecast data"
           git push
       - name: Report repeated source failures
-        if: steps.fetch.outcome == 'failure'
+        if: steps.when.outputs.run == 'yes' && (steps.fetch.outcome == 'failure')
         run: |
           echo "The fetch step failed. Check the log above; the page keeps showing the last data or the Open-Meteo backup."
           exit 1
