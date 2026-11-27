@@ -62,7 +62,8 @@ async function openMeteo() {
 async function main() {
   log('target date', target);
   const browser = await chromium.launch();
-  const page = await browser.newPage({ userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36', locale: 'he-IL' });
+  const page = await browser.newPage({ userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36', locale: 'he-IL', timezoneId: TZ });
+  // Windguru prints its hours in the browser's time zone; GitHub's servers run on UTC, so pin Israel time.
   const gosurf = await withRetry('GoSurf', async () => {
     await page.goto(GOSURF_URL, { waitUntil: 'domcontentloaded', timeout: 45000 });
     return parseGoSurf(await page.locator('body').innerText(), `${D}/${M}/${Y}`);
