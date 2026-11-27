@@ -7,6 +7,8 @@ on:
     - cron: '0 16 * * *'
     - cron: '0 17 * * *'
   workflow_dispatch:
+  # On pull requests the fetch runs as a test only; nothing is committed.
+  pull_request:
 
 permissions:
   contents: write
@@ -30,7 +32,10 @@ jobs:
         id: fetch
         run: node scripts/fetch.mjs
         continue-on-error: true
+      - name: Show fetched data
+        run: head -c 3000 docs/data.json
       - name: Commit new data
+        if: github.event_name != 'pull_request'
         run: |
           if git diff --quiet docs/data.json; then echo "no change"; exit 0; fi
           git config user.name "forecast-bot"
