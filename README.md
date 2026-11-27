@@ -9,7 +9,7 @@
 
 ## איך זה עובד
 - `scripts/fetch.mjs` שולף את הנתונים ושומר אותם ב־`docs/data.json`.
-- `.github/workflows/update-forecast.yml` מריץ את השליפה כל יום בסביבות 11:00 ו־19:00 (שעון ישראל, גם בשעון קיץ) ושומר את התוצאה.
+- `.github/workflows/update-forecast.yml` מריץ את השליפה כל יום בסביבות 11:00, 17:00 ו־19:00 (שעון ישראל, גם בשעון קיץ) ושומר את התוצאה.
 - `docs/index.html` הוא הדף עצמו. GitHub Pages מגיש אותו מתיקיית `docs`.
 
 ## ספים
