@@ -127,7 +127,8 @@ function render(D){
   const WIND=WG.map(w=>[w[0],w[1]]),GUST=WG.map(w=>[w[0],w[2]]);
   const wgAt=h=>WG.reduce((a,w)=>Math.abs(w[0]-h)<Math.abs(a[0]-h)?w:a,WG[0]);
   const [sh,sm]=D.sunset.split(':').map(Number),SUNSET=sh+sm/60;
-  const evalSlot=st=>{const hs=[st,st+.5,st+1],wind=Math.max(...hs.map(h=>lerp(WIND,h))),gust=Math.max(...hs.map(h=>lerp(GUST,h))),wave=Math.max(...hs.map(waveAt));return{st,windRaw:wind,wind:Math.ceil(wind-0.05),gust:Math.ceil(gust-0.05),wave:Math.round(wave/5)*5,score:wind*2+gust+wave/10,from:onshore(wgAt(st+.5)[3])?'מהים':'מהיבשה'}};
+  const near=st=>{const lo=WG.filter(p=>p[0]<=st).pop(),hi=WG.find(p=>p[0]>=st+1);return WG.filter(p=>(!lo||p[0]>=lo[0])&&(!hi||p[0]<=hi[0]))};
+  const evalSlot=st=>{const hs=[st,st+.5,st+1],nb=near(st),wind=Math.max(...nb.map(p=>p[1])),gust=Math.max(...nb.map(p=>p[2])),wave=Math.max(...goMax.filter(p=>p[0]>=(goMax.filter(q=>q[0]<=st).pop()||goMax[0])[0]&&p[0]<=(goMax.find(q=>q[0]>=st+1)||goMax[goMax.length-1])[0]).map(p=>p[1]));return{st,windRaw:wind,wind:Math.ceil(wind-0.05),gust:Math.ceil(gust-0.05),wave:Math.round(wave/5)*5,score:wind*2+gust+wave/10,from:onshore(wgAt(st+.5)[3])?'מהים':'מהיבשה'}};
   const vOf=r=>verdict(r.windRaw,r.wave);
   const pick=starts=>{const all=starts.map(evalSlot),best=all.reduce((a,b)=>b.score<a.score-0.01?b:a);best.alts=all.filter(x=>x!==best&&vOf(x)[0]===vOf(best)[0]&&x.wind-best.wind<=1&&x.wave-best.wave<=10).map(x=>fmt(x.st));return best};
   const s1=pick(range(7,7.5)),s2=pick(range(Math.max(8,s1.st+1),10)),s3=evalSlot(Math.floor((SUNSET-1)*2)/2);
@@ -140,7 +141,7 @@ function render(D){
   $('whyWord').textContent=anyNo?'מבטלים':anyMid?'לשיקולכם':'יוצאים';
   // שעה אחרי שעה
   const best=[...new Set([s1.st,s1.st+.5,s2.st,s2.st+.5].map(Math.floor))];
-  $('hours').innerHTML=[6,7,8,9,10,11].map(h=>{const g=goAt(h),w=wgAt(h),v=verdict(w[1],g[1]);return`<div class="h${best.includes(h)?' best':''}"><b>${pad(h)}:00</b><div class="r"><span>${goOk?'GoSurf':'גלים (גיבוי)'}</span><span>${g[1]?g[0]+' עד '+g[1]+' ס"מ':'פלטה'}</span></div><div class="r"><span>רוח</span><span>${w[1]} קש' ${onshore(w[3])?'מהים':'מהיבשה'}</span></div><span class="tag${v[0]==='top'?' top':''}">${v[1]}</span></div>`}).join('');
+  $('hours').innerHTML=[6,7,8,9,10,11].map(h=>{const g=goAt(h),w=wgAt(h),v=verdict(w[1],g[1]);return`<div class="h${best.includes(h)?' best':''}"><b>${pad(h)}:00</b><div class="r"><span>${goOk?'GoSurf':'גלים (גיבוי)'}</span><span>${g[1]?g[0]+' עד '+g[1]+' ס"מ':'פלטה'}</span></div><div class="r"><span>רוח</span><span>${w[1]} קש' ${onshore(w[3])?'מהים':'מהיבשה'}</span></div><div class="r"><span>מכות רוח</span><span>${w[2]} קש'</span></div><span class="tag${v[0]==='top'?' top':''}">${v[1]}</span></div>`}).join('');
   // כותרת וטקסט
   const day=WG.filter(w=>w[0]>=6&&w[0]<=17),dMax=Math.max(...day.map(w=>w[1])),dGust=Math.max(...day.map(w=>w[2]));
   const mWind=[s1.wind,s2.wind],mWave=Math.max(s1.wave,s2.wave);
