@@ -1,0 +1,397 @@
+{
+ "generatedAt": "2026-11-27T12:55:00Z",
+ "date": "2026-11-28",
+ "sunrise": "06:21",
+ "sunset": "16:35",
+ "gosurf": {
+  "ok": true,
+  "summary": "בבוקר ים נוח עם רוח דרומית קלה. בצהרים ובערב ים נוח עם רוח דרום מערבית קלה.",
+  "rows": {
+   "0": {
+    "wave": [
+     30,
+     50
+    ],
+    "swellCm": 54,
+    "period": 5,
+    "swellDir": "צפוני"
+   },
+   "3": {
+    "wave": [
+     30,
+     40
+    ],
+    "swellCm": 50,
+    "period": 4.9,
+    "swellDir": "צפוני"
+   },
+   "6": {
+    "wave": [
+     20,
+     40
+    ],
+    "swellCm": 46,
+    "period": 4.8,
+    "swellDir": "צפוני"
+   },
+   "9": {
+    "wave": [
+     20,
+     30
+    ],
+    "swellCm": 40,
+    "period": 4.7,
+    "swellDir": "צפוני"
+   },
+   "12": {
+    "wave": [
+     20,
+     30
+    ],
+    "swellCm": 36,
+    "period": 4.6,
+    "swellDir": "צפוני"
+   },
+   "15": {
+    "wave": [
+     20,
+     30
+    ],
+    "swellCm": 34,
+    "period": 4.6,
+    "swellDir": "צפוני"
+   },
+   "18": {
+    "wave": [
+     20,
+     30
+    ],
+    "swellCm": 32,
+    "period": 4.6,
+    "swellDir": "צפוני"
+   },
+   "21": {
+    "wave": [
+     20,
+     30
+    ],
+    "swellCm": 30,
+    "period": 4.5,
+    "swellDir": "צפוני"
+   }
+  }
+ },
+ "surfline": {
+  "ok": true,
+  "hourly": [
+   {
+    "h": 0,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 1,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 2,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 3,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 4,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 5,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 6,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 7,
+    "min": 0,
+    "max": 30,
+    "rel": "Shin to knee"
+   },
+   {
+    "h": 8,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 9,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 10,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 11,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 12,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 13,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 14,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 15,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 16,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 17,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 18,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 19,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 20,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 21,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 22,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   },
+   {
+    "h": 23,
+    "min": 0,
+    "max": 0,
+    "rel": "Flat"
+   }
+  ],
+  "rating": [
+   {
+    "h": 0,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 1,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 2,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 3,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 4,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 5,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 6,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 7,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 8,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 9,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 10,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 11,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 12,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 13,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 14,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 15,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 16,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 17,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 18,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 19,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 20,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 21,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 22,
+    "key": "VERY_POOR"
+   },
+   {
+    "h": 23,
+    "key": "VERY_POOR"
+   }
+  ]
+ },
+ "windguru": {
+  "ok": true,
+  "points": [
+   [
+    3,
+    3,
+    5,
+    138
+   ],
+   [
+    5,
+    4,
+    6,
+    136
+   ],
+   [
+    7,
+    4,
+    5,
+    131
+   ],
+   [
+    9,
+    3,
+    5,
+    155
+   ],
+   [
+    11,
+    4,
+    5,
+    235
+   ],
+   [
+    13,
+    7,
+    8,
+    264
+   ],
+   [
+    15,
+    6,
+    7,
+    274
+   ],
+   [
+    17,
+    3,
+    5,
+    290
+   ],
+   [
+    19,
+    3,
+    4,
+    318
+   ],
+   [
+    21,
+    2,
+    3,
+    218
+   ]
+  ]
+ },
+ "backup": null
+}
