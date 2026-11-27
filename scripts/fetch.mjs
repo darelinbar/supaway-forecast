@@ -1,5 +1,5 @@
 // Pulls tomorrow's forecast for Beit Yanai / Michmoret and writes docs/data.json.
-// Waves: GoSurf + Open-Meteo marine model. Wind: Windguru only (Open-Meteo GFS as backup).
+// Waves: GoSurf. Wind: Windguru. Open-Meteo is used only as a labelled backup when one of them fails.
 // Surfline was dropped: it refuses automated requests (HTTP 403).
 import { chromium } from 'playwright';
 import { writeFile, readFile } from 'node:fs/promises';
