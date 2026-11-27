@@ -86,7 +86,7 @@ h2{font-size:24px;margin:0 0 16px;line-height:1.2;font-weight:800}
 <section class="band" style="padding-top:0"><div class="wrap">
   <h2>שעה אחרי שעה</h2>
   <div class="hours" id="hours"></div>
-  <p class="note">גלים מ־GoSurf ו־Surfline, רוח רק מ־Windguru.</p>
+  <p class="note">גלים מ־GoSurf ו־Open‑Meteo, רוח רק מ־Windguru.</p>
 </div></section>
 
 <section class="band" style="padding-top:0"><div class="wrap">
@@ -114,14 +114,14 @@ const range=(a,b)=>{const r=[];for(let h=a;h<=b+1e-9;h+=.5)r.push(h);return r};
 
 function render(D){
   const B=D.backup||{wind:[],waves:[]};
-  const goOk=D.gosurf&&D.gosurf.ok, slOk=D.surfline&&D.surfline.ok, wgOk=D.windguru&&D.windguru.ok;
+  const goOk=D.gosurf&&D.gosurf.ok, omOk=!!(B.waves&&B.waves.length), wgOk=D.windguru&&D.windguru.ok;
   // גלים
   const goRows=goOk?Object.entries(D.gosurf.rows).map(([h,r])=>[+h,r.wave[0],r.wave[1],r]).sort((a,b)=>a[0]-b[0])
     :B.waves.filter(w=>w.h%3===0).map(w=>[w.h,Math.round(w.cm*0.6/10)*10,Math.round(w.cm/10)*10,{period:w.period}]);
   const goMax=goRows.map(r=>[r[0],r[2]]);
   const goAt=h=>{const r=goRows.filter(x=>x[0]<=h).pop()||goRows[0];return r?[r[1],r[2]]:[0,0]};
-  const slAt=h=>{if(!slOk)return null;const r=D.surfline.hourly.find(x=>x.h===Math.floor(h));return r?[r.min,r.max]:null};
-  const waveAt=h=>Math.max(lerp(goMax,h),(slAt(h)||[0,0])[1]);
+  const omAt=h=>{if(!omOk)return null;const r=B.waves.find(x=>x.h===Math.floor(h));return r?Math.round(r.cm/5)*5:null};
+  const waveAt=h=>Math.max(lerp(goMax,h),omAt(h)||0);
   // רוח
   const WG=(wgOk?D.windguru.points:B.wind).slice().sort((a,b)=>a[0]-b[0]);
   const WIND=WG.map(w=>[w[0],w[1]]),GUST=WG.map(w=>[w[0],w[2]]);
@@ -140,7 +140,7 @@ function render(D){
   $('whyWord').textContent=anyNo?'מבטלים':anyMid?'לשיקולכם':'יוצאים';
   // שעה אחרי שעה
   const best=[...new Set([s1.st,s1.st+.5,s2.st,s2.st+.5].map(Math.floor))];
-  $('hours').innerHTML=[6,7,8,9,10,11].map(h=>{const g=goAt(h),s=slAt(h),w=wgAt(h),v=verdict(w[1],Math.max(g[1],(s||[0,0])[1]));return`<div class="h${best.includes(h)?' best':''}"><b>${pad(h)}:00</b><div class="r"><span>${goOk?'GoSurf':'גלים (גיבוי)'}</span><span>${g[1]?g[0]+' עד '+g[1]+' ס"מ':'פלטה'}</span></div>${slOk?`<div class="r"><span>Surfline</span><span>${s&&s[1]?'עד '+s[1]+' ס"מ':'פלאט'}</span></div>`:''}<div class="r"><span>רוח</span><span>${w[1]} קש' ${onshore(w[3])?'מהים':'מהיבשה'}</span></div><span class="tag${v[0]==='top'?' top':''}">${v[1]}</span></div>`}).join('');
+  $('hours').innerHTML=[6,7,8,9,10,11].map(h=>{const g=goAt(h),o=omAt(h),w=wgAt(h),v=verdict(w[1],Math.max(g[1],o||0));return`<div class="h${best.includes(h)?' best':''}"><b>${pad(h)}:00</b><div class="r"><span>${goOk?'GoSurf':'גלים (גיבוי)'}</span><span>${g[1]?g[0]+' עד '+g[1]+' ס"מ':'פלטה'}</span></div>${goOk&&o!=null?`<div class="r"><span>Open‑Meteo</span><span>${o} ס"מ</span></div>`:''}<div class="r"><span>רוח</span><span>${w[1]} קש' ${onshore(w[3])?'מהים':'מהיבשה'}</span></div><span class="tag${v[0]==='top'?' top':''}">${v[1]}</span></div>`}).join('');
   // כותרת וטקסט
   const day=WG.filter(w=>w[0]>=6&&w[0]<=17),dMax=Math.max(...day.map(w=>w[1])),dGust=Math.max(...day.map(w=>w[2]));
   const mWind=[s1.wind,s2.wind],mWave=Math.max(s1.wave,s2.wave);
@@ -148,10 +148,10 @@ function render(D){
   const tail=allTop?'יום מעולה לקבוצות.':anyNo?'עדיף לבטל.':anyMid?'קרוב לגבול, החלטה שלכם.':'אפשר לצאת עם קבוצות.';
   const wr=Math.min(...mWind)===Math.max(...mWind)?Math.max(...mWind):Math.min(...mWind)+'–'+Math.max(...mWind);
   $('h1').textContent=`בסשנים של הבוקר: ${seaWord} ורוח של ${wr} קשרים. ${tail}`;
-  const goM=goAt(7),slFlat=slOk?D.surfline.hourly.find(x=>x.h>=6&&x.max===0):null,turn=day.find(w=>onshore(w[3])&&w[1]>=5);
+  const goM=goAt(7),omM=omOk?Math.max(...[6,7,8,9,10,11].map(h=>omAt(h)||0)):null,turn=day.find(w=>onshore(w[3])&&w[1]>=5);
   $('lead').textContent=[
     goOk?`GoSurf: גלים של ${goM[0]} עד ${goM[1]} ס"מ בבוקר.`:'GoSurf לא התעדכן, הגלים מגיבוי.',
-    slOk?(slFlat?`Surfline מראה פלאט מ־${pad(slFlat.h)}:00.`:`Surfline: עד ${Math.max(...D.surfline.hourly.filter(x=>x.h>=6&&x.h<=11).map(x=>x.max))} ס"מ בבוקר.`):'',
+    goOk&&omOk?`Open‑Meteo: עד ${omM} ס"מ בבוקר.`:'',
     `${wgOk?'לפי Windguru':'לפי הגיבוי'} הרוח לא עוברת ${dMax} קשרים בשעות האור.`,
     turn?`מ־${pad(turn[0])}:00 בריזה מהים.`:''].filter(Boolean).join(' ');
   $('pills').innerHTML=`<span class="pill">רוח מקסימלית: <b>${dMax} קש' (מכות רוח עד ${dGust})</b></span><span class="pill">זריחה <b>${esc(D.sunrise)}</b> · שקיעה <b>${esc(D.sunset)}</b></span>`;
@@ -161,8 +161,7 @@ function render(D){
   const cards=[];
   if(goOk){const r6=D.gosurf.rows[6]||goRows[0][3],r15=D.gosurf.rows[15];cards.push(`<div class="card"><h3>GoSurf</h3><div class="role">גלים</div><div class="v">${Math.min(...goDay.map(r=>r[1]))} עד ${Math.max(...goDay.map(r=>r[2]))} ס"מ</div><p>${esc(D.gosurf.summary||'')}${r6?` סוואל ${esc(r6.swellDir)} של ${r6.swellCm} ס"מ ב־06:00${r15?` ו־${r15.swellCm} ס"מ ב־15:00`:''}, מחזור ${r6.period} שניות.`:''}</p><p class="note"><a href="https://www.gosurf.co.il/forecast/beit-yanai">gosurf.co.il · בית ינאי</a></p></div>`)}
   else cards.push(`<div class="card"><h3>GoSurf ${bk}</h3><div class="role">גלים</div><p>GoSurf לא ענה בשליפה האחרונה. הגלים בדף מגיעים מ־Open‑Meteo עד שיחזור.</p></div>`);
-  if(slOk){const m=D.surfline.hourly.filter(x=>x.h>=6&&x.h<=17),rat=(D.surfline.rating.find(r=>r.h===8)||{}).key||'';cards.push(`<div class="card"><h3>Surfline</h3><div class="role">גלים</div><div class="v">עד ${Math.max(...m.map(x=>x.max))} ס"מ</div><p>${esc((m.find(x=>x.h===7)||m[0]).rel)} בבוקר${slFlat?`, Flat מ־${pad(slFlat.h)}:00`:''}.${rat?` דירוג לגולשים: ${esc(rat.replace('_',' ').toLowerCase())}.`:''}</p><p class="note"><a href="https://www.surfline.com/surf-report/beit-yanai/584204204e65fad6a7709aa8">surfline.com · Beit Yanai</a></p></div>`)}
-  else cards.push(`<div class="card"><h3>Surfline ${bk}</h3><div class="role">גלים</div><p>Surfline לא ענה בשליפה האחרונה, אז הוא לא נכלל בחישוב היום.</p></div>`);
+  if(omOk&&goOk){const m=B.waves.filter(x=>x.h>=6&&x.h<=17),per=(B.waves.find(x=>x.h===7)||m[0]).period;cards.push(`<div class="card"><h3>Open‑Meteo</h3><div class="role">גלים · מודל רשמי וחינמי</div><div class="v">${Math.round(Math.min(...m.map(x=>x.cm))/5)*5} עד ${Math.round(Math.max(...m.map(x=>x.cm))/5)*5} ס"מ</div><p>גובה גל משמעותי בשעות האור, מחזור של כ־${per} שניות. משמש כמקור הגלים השני במקום Surfline, שחוסם שליפה אוטומטית.</p><p class="note"><a href="https://open-meteo.com/en/docs/marine-weather-api">open-meteo.com</a></p></div>`)}
   const am=WG.filter(w=>w[0]>=5&&w[0]<=9),aft=WG.filter(w=>w[0]>=13&&w[0]<=15);
   cards.push(`<div class="card"><h3>Windguru${wgOk?'':' '+bk}</h3><div class="role">רוח</div><div class="v">${Math.min(...day.map(w=>w[1]))} עד ${dMax} קשרים</div><p>בבוקר מ${dirName(am[1]?am[1][3]:am[0][3])} ${onshore((am[1]||am[0])[3])?'(מהים)':'(מהיבשה)'} ${Math.min(...am.map(w=>w[1]))}–${Math.max(...am.map(w=>w[1]))} קשרים. ${aft.length?`בצהריים מ${dirName(aft[0][3])} ${Math.max(...aft.map(w=>w[1]))} קשרים עם מכות רוח עד ${Math.max(...aft.map(w=>w[2]))}.`:''}</p>${wgOk?'<p class="note"><a href="https://www.windguru.cz/771">windguru.cz · Beit Yannai</a></p>':''}</div>`);
   $('src').innerHTML=cards.join('');
@@ -175,7 +174,7 @@ function render(D){
   ].filter(Boolean).map(t=>`<li>${t}</li>`).join('');
   // חותמת זמן ותוקף
   const gen=new Date(D.generatedAt),genTxt=new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}).format(gen);
-  const ok=[goOk&&'GoSurf',slOk&&'Surfline',wgOk&&'Windguru'].filter(Boolean),bad=[!goOk&&'GoSurf',!slOk&&'Surfline',!wgOk&&'Windguru'].filter(Boolean);
+  const ok=[goOk&&'GoSurf',wgOk&&'Windguru',omOk&&'Open‑Meteo'].filter(Boolean),bad=[!goOk&&'GoSurf',!wgOk&&'Windguru'].filter(Boolean);
   $('stamp').textContent=`נשלף ב־${genTxt} (שעון ישראל) מ־${ok.join(', ')||'Open‑Meteo בלבד'}.${bad.length?` לא ענו: ${bad.join(', ')}, הוחלפו בגיבוי מ־Open‑Meteo.`:''} הדף מתעדכן אוטומטית כל ערב.`;
   const dateTxt=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(D.date+'T12:00:00Z'));
   $('date').textContent=`${dateTxt} · תחזית בית ינאי`;

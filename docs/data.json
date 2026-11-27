@@ -81,253 +81,6 @@
    }
   }
  },
- "surfline": {
-  "ok": true,
-  "hourly": [
-   {
-    "h": 0,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 1,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 2,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 3,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 4,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 5,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 6,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 7,
-    "min": 0,
-    "max": 30,
-    "rel": "Shin to knee"
-   },
-   {
-    "h": 8,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 9,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 10,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 11,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 12,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 13,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 14,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 15,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 16,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 17,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 18,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 19,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 20,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 21,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 22,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   },
-   {
-    "h": 23,
-    "min": 0,
-    "max": 0,
-    "rel": "Flat"
-   }
-  ],
-  "rating": [
-   {
-    "h": 0,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 1,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 2,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 3,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 4,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 5,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 6,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 7,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 8,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 9,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 10,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 11,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 12,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 13,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 14,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 15,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 16,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 17,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 18,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 19,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 20,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 21,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 22,
-    "key": "VERY_POOR"
-   },
-   {
-    "h": 23,
-    "key": "VERY_POOR"
-   }
-  ]
- },
  "windguru": {
   "ok": true,
   "points": [
@@ -393,5 +146,202 @@
    ]
   ]
  },
- "backup": null
+ "backup": {
+  "wind": [
+   [
+    1,
+    4,
+    6,
+    140
+   ],
+   [
+    3,
+    4,
+    6,
+    140
+   ],
+   [
+    5,
+    4,
+    6,
+    140
+   ],
+   [
+    7,
+    4,
+    6,
+    140
+   ],
+   [
+    9,
+    4,
+    6,
+    140
+   ],
+   [
+    11,
+    4,
+    6,
+    140
+   ],
+   [
+    13,
+    4,
+    6,
+    270
+   ],
+   [
+    15,
+    4,
+    6,
+    270
+   ],
+   [
+    17,
+    4,
+    6,
+    270
+   ],
+   [
+    19,
+    4,
+    6,
+    270
+   ],
+   [
+    21,
+    4,
+    6,
+    270
+   ],
+   [
+    23,
+    4,
+    6,
+    270
+   ]
+  ],
+  "waves": [
+   {
+    "h": 0,
+    "cm": 48,
+    "period": 5.3
+   },
+   {
+    "h": 1,
+    "cm": 46,
+    "period": 5.3
+   },
+   {
+    "h": 2,
+    "cm": 44,
+    "period": 5.3
+   },
+   {
+    "h": 3,
+    "cm": 42,
+    "period": 5.3
+   },
+   {
+    "h": 4,
+    "cm": 40,
+    "period": 5.3
+   },
+   {
+    "h": 5,
+    "cm": 38,
+    "period": 5.3
+   },
+   {
+    "h": 6,
+    "cm": 36,
+    "period": 5.3
+   },
+   {
+    "h": 7,
+    "cm": 34,
+    "period": 5.3
+   },
+   {
+    "h": 8,
+    "cm": 32,
+    "period": 5.3
+   },
+   {
+    "h": 9,
+    "cm": 30,
+    "period": 5.3
+   },
+   {
+    "h": 10,
+    "cm": 28,
+    "period": 5.3
+   },
+   {
+    "h": 11,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 12,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 13,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 14,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 15,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 16,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 17,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 18,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 19,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 20,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 21,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 22,
+    "cm": 26,
+    "period": 5.3
+   },
+   {
+    "h": 23,
+    "cm": 26,
+    "period": 5.3
+   }
+  ]
+ }
 }

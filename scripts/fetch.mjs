@@ -1,5 +1,6 @@
 // Pulls tomorrow's forecast for Beit Yanai / Michmoret and writes docs/data.json.
-// Waves: GoSurf + Surfline. Wind: Windguru only. Open-Meteo fills in any source that fails.
+// Waves: GoSurf + Open-Meteo marine model. Wind: Windguru only (Open-Meteo GFS as backup).
+// Surfline was dropped: it refuses automated requests (HTTP 403).
 import { chromium } from 'playwright';
 import { writeFile, readFile } from 'node:fs/promises';
 import { parseGoSurf } from './parse.mjs';
@@ -7,7 +8,6 @@ import { parseGoSurf } from './parse.mjs';
 const TZ = 'Asia/Jerusalem';
 const LAT = 32.40, LON = 34.86; // Michmoret / Beit Yanai
 const GOSURF_URL = 'https://www.gosurf.co.il/forecast/beit-yanai';
-const SURFLINE_SPOT = '584204204e65fad6a7709aa8'; // Beit Yanai
 const WINDGURU_URL = 'https://www.windguru.cz/771'; // Beit Yannai
 const OUT = new URL('../docs/data.json', import.meta.url);
 
@@ -23,26 +23,6 @@ async function withRetry(name, fn, tries = 3) {
     catch (e) { log(`${name} attempt ${i} failed:`, e.message); if (i < tries) await new Promise(r => setTimeout(r, 20000 * i)); }
   }
   return null;
-}
-
-// ---------- Surfline (waves) ----------
-async function surfline() {
-  const base = 'https://services.surfline.com/kbyg/spots/forecasts';
-  const q = `spotId=${SURFLINE_SPOT}&days=3&intervalHours=1&units[waveHeight]=M`;
-  const get = async (k) => {
-    const r = await fetch(`${base}/${k}?${q}`, { headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json' } });
-    if (!r.ok) throw new Error(`Surfline ${k} HTTP ${r.status}`);
-    return (await r.json()).data[k];
-  };
-  const [surf, rating] = [await get('surf'), await get('rating')];
-  const loc = (ts, off) => new Date((ts + off * 3600) * 1000).toISOString();
-  const hourly = surf.filter(r => loc(r.timestamp, r.utcOffset).startsWith(target)).map(r => ({
-    h: +loc(r.timestamp, r.utcOffset).slice(11, 13),
-    min: Math.round(r.surf.min * 100), max: Math.round(r.surf.max * 100), rel: r.surf.humanRelation || ''
-  }));
-  const rat = rating.filter(r => loc(r.timestamp, r.utcOffset).startsWith(target)).map(r => ({ h: +loc(r.timestamp, r.utcOffset).slice(11, 13), key: r.rating?.key || '' }));
-  if (!hourly.length) throw new Error('Surfline: no hours for target date');
-  return { ok: true, hourly, rating: rat };
 }
 
 // ---------- Windguru (wind) ----------
@@ -89,7 +69,6 @@ async function main() {
   });
   const wg = await withRetry('Windguru', () => windguru(page));
   await browser.close();
-  const sl = await withRetry('Surfline', surfline);
   const om = await withRetry('Open-Meteo', openMeteo);
 
   let previous = null;
@@ -101,14 +80,13 @@ async function main() {
     sunrise: om?.sunrise || previous?.sunrise || '06:20',
     sunset: om?.sunset || previous?.sunset || '16:35',
     gosurf: gosurf || { ok: false },
-    surfline: sl || { ok: false },
     windguru: wg || { ok: false },
     backup: om ? { wind: om.wind, waves: om.waves } : null,
   };
-  const failed = ['gosurf', 'surfline', 'windguru'].filter(k => !data[k].ok);
-  if (failed.length === 3 && !om) throw new Error('All sources failed, keeping previous data.json');
+  const failed = ['gosurf', 'windguru'].filter(k => !data[k].ok);
+  if (failed.length === 2 && !om) throw new Error('All sources failed, keeping previous data.json');
   // Count consecutive failed runs per source (3 runs a day). After about 2 days, fail the job so GitHub emails the owner.
-  data.failStreak = Object.fromEntries(['gosurf', 'surfline', 'windguru'].map(k => [k, data[k].ok ? 0 : ((previous?.failStreak?.[k]) || 0) + 1]));
+  data.failStreak = Object.fromEntries(['gosurf', 'windguru'].map(k => [k, data[k].ok ? 0 : ((previous?.failStreak?.[k]) || 0) + 1]));
   await writeFile(OUT, JSON.stringify(data, null, 1));
   log('wrote data.json; failed sources:', failed.join(', ') || 'none');
   const stuck = Object.entries(data.failStreak).filter(([, n]) => n >= 6).map(([k]) => k);
