@@ -1,0 +1,50 @@
+name: Update forecast
+
+on:
+  schedule:
+    # 17:00, 18:00 and 19:00 Israel winter time (UTC+2). Each run refreshes tomorrow's forecast; later runs are retries.
+    - cron: '0 15 * * *'
+    - cron: '0 16 * * *'
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+  # On pull requests the fetch runs as a test only; nothing is committed.
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-forecast
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Fetch forecast
+        id: fetch
+        run: node scripts/fetch.mjs
+        continue-on-error: true
+      - name: Show fetched data
+        run: head -c 3000 docs/data.json
+      - name: Commit new data
+        if: github.event_name != 'pull_request'
+        run: |
+          if git diff --quiet docs/data.json; then echo "no change"; exit 0; fi
+          git config user.name "forecast-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          git commit -m "Update forecast data"
+          git push
+      - name: Report repeated source failures
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "The fetch step failed. Check the log above; the page keeps showing the last data or the Open-Meteo backup."
+          exit 1

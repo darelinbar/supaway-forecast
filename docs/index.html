@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SUPAWAY · תחזית למחר</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Oswald:wght@600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: מדריך החתירה של המועדון, קצר וברור
+   IDEA: המשך ישיר לאתר של SUPAWAY: פס שחור עם הלוגו, שחור-לבן, כחול ים כהדגשה
+   PICTURE: כרטיסי הסשנים של מחר עם דירוג בולט
+   COLOUR and TYPE: שחור, לבן, אפור, כחול #3083a8; Heebo כמו באתר, Oswald ללוגו
+   LAYOUT: עמודה אחת לטלפון, פס עליון, החלטה, סשנים, שעות, מקורות */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0f10);--ink:light-dark(#111,#f2f2f2);--muted:light-dark(#6b6b6b,#a3a3a3);
+--line:light-dark(#e6e6e6,#2a2c2e);--card:light-dark(#fff,#17191b);--soft:light-dark(#f5f5f5,#1d2023);--blue:#3083a8;--gold:#ffc02e;--blueInk:light-dark(#2271a7,#6fb7d8)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Heebo,system-ui,sans-serif;overflow-x:clip}
+.topbar{background:#000;color:#fff;text-align:center;padding:12px 16px}
+.topbar .logo{font:600 26px/1 Oswald,Impact,sans-serif;letter-spacing:.06em}
+.topbar .sub{display:block;font-size:13px;opacity:.7;margin-top:4px}
+.band{padding:clamp(24px,4vw,48px) max(5vw,16px)}
+.wrap{max-width:900px;margin:0 auto}
+.hero{background:#111;color:#fff;background-image:linear-gradient(180deg,#000,#1c1c1c)}
+.date{font-size:15px;opacity:.75;margin:0 0 12px}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0 0 14px;font-weight:800;text-wrap:balance}
+.lead{font-size:17px;margin:0 0 18px;max-width:38em;opacity:.92}
+.score{display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px;font-size:15px;white-space:nowrap}
+.pill b{color:#fff}
+.go{display:inline-block;background:#fff;color:#000;font-weight:800;font-size:19px;border-radius:999px;padding:6px 18px;margin-bottom:14px}
+.excellent{background:var(--blue);color:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 18px;margin:0 0 18px;font-size:16px}
+.excellent b{display:block;font-size:24px;font-weight:800;line-height:1.2;margin-bottom:4px}
+.excellent[hidden]{display:none}
+h2{font-size:24px;margin:0 0 16px;line-height:1.2;font-weight:800}
+.sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-bottom:10px}
+.sess{background:var(--card);border:1px solid var(--line);border-top:6px solid;border-radius:12px;padding:14px 16px;font-size:15px}
+.sess .st b{font-size:17px}
+.sess .time{font-size:28px;font-weight:800;line-height:1.2;margin-top:2px}.sess .why{font-size:13px;color:var(--muted)}
+.sess .sv{font-size:21px;font-weight:800;margin:8px 0}.sess .alt{font-size:13px;color:var(--muted);margin:-4px 0 8px}
+.sess .r{display:flex;justify-content:space-between;gap:6px;border-top:1px solid var(--line);padding-top:4px;margin-top:4px}.sess .r span:first-child{color:var(--muted)}.sess .r span:last-child{white-space:nowrap}
+.sess.top{border:2px solid var(--gold);border-top:6px solid var(--blue);background:light-dark(#eef6fa,#132630)}.sess.top .sv{color:var(--blueInk)}
+.sess.ok{border-top-color:#111;border-top-color:light-dark(#111,#ddd)}.sess.mid{border-top-color:#d99a00}.sess.mid .sv{color:#d99a00}.sess.no{border-top-color:#d93a3f}.sess.no .sv{color:#d93a3f}
+.hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.h{border-radius:12px;padding:10px 12px;font-size:14px;border:1px solid var(--line);background:var(--card)}
+.h b{display:block;font-size:17px}
+.h .r{display:flex;justify-content:space-between;gap:6px}.h .r span:first-child{color:var(--muted)}.h .r span:last-child{white-space:nowrap}
+.h.best{outline:2px solid var(--ink);outline-offset:-2px}
+.tag{display:inline-block;font-size:12px;border-radius:999px;padding:1px 9px;margin-top:6px;background:var(--soft)}
+.tag.top{background:var(--blue);color:#fff;box-shadow:0 0 0 1.5px var(--gold)}
+.src{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin:0 0 2px;font-size:18px}
+.card .role{font-size:14px;color:var(--muted);margin-bottom:8px}
+.card .v{font-size:24px;font-weight:800;line-height:1.2}
+.card p{margin:8px 0 0;font-size:15px}
+.card a{color:var(--blueInk)}
+.why li{margin-bottom:8px}
+.note{font-size:14px;color:var(--muted)}
+.warn{background:#d99a00;color:#111;border-radius:12px;padding:10px 14px;margin:0 0 14px;font-weight:700}.warn[hidden]{display:none}
+.bk{display:inline-block;font-size:12px;background:var(--soft);border-radius:6px;padding:1px 7px;margin-inline-start:6px;color:var(--muted)}
+.foot{background:#000;color:#bbb;font-size:13px;text-align:center;padding:18px 16px}
+@media(max-width:760px){.hours{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header class="topbar"><span class="logo">SUPAWAY</span><span class="sub">תחזית חתירה למחר · חוף מכמורת</span></header>
+<section class="band hero"><div class="wrap">
+  <p class="warn" id="warn" hidden></p>
+  <p class="date" id="date">טוען תחזית…</p>
+  <div class="go" id="go" hidden></div>
+  <div class="excellent" id="exc" hidden><b>★ תנאים מעולים לחתירה</b>רוח עד 5 קשרים וגלים עד 50 ס"מ בשני סשני הבוקר. זה יום ששווה לצאת בו.</div>
+  <h1 id="h1"></h1>
+  <p class="lead" id="lead"></p>
+  <div class="score" id="pills"></div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>הסשנים של מחר</h2>
+  <div class="sessions" id="sessions"></div>
+  <p class="note">כל סשן הוא שעה של חתירה. אני בוחר את שעת ההתחלה עם הרוח והגלים הכי חלשים בחלון. "מעולה" = רוח עד 5 קשרים וגלים עד 50 ס"מ.</p>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>שעה אחרי שעה</h2>
+  <div class="hours" id="hours"></div>
+  <p class="note">גלים מ־GoSurf, רוח מ־Windguru.</p>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>מה כל מקור אומר</h2>
+  <div class="src" id="src"></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>למה <span id="whyWord">יוצאים</span></h2>
+  <ul class="why" id="why"></ul>
+  <p class="note" id="stamp"></p>
+</div></section>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const fmt=h=>pad(Math.floor(h))+':'+(h%1?'30':'00');
+const lerp=(pts,h)=>{if(!pts.length)return 0;const a=pts.filter(p=>p[0]<=h).pop()||pts[0],b=pts.find(p=>p[0]>=h)||pts[pts.length-1];return a[0]===b[0]?a[1]:a[1]+(b[1]-a[1])*(h-a[0])/(b[0]-a[0])};
+const onshore=d=>d>=200&&d<=340;
+const dirName=d=>['צפון','צפון־מזרח','מזרח','דרום־מזרח','דרום','דרום־מערב','מערב','צפון־מערב'][Math.round(d/45)%8];
+const verdict=(wind,wave)=>wind>12||wave>70?['no','מבטלים']:wind>10||wave>50?['mid','לשיקולכם']:wind<=5&&wave<=50?['top','★ מעולה']:['ok','יוצאים'];
+const range=(a,b)=>{const r=[];for(let h=a;h<=b+1e-9;h+=.5)r.push(h);return r};
+
+function render(D){
+  const B=D.backup||{wind:[],waves:[]};
+  const goOk=D.gosurf&&D.gosurf.ok, omOk=!goOk&&!!(B.waves&&B.waves.length), wgOk=D.windguru&&D.windguru.ok;
+  // גלים
+  const goRows=goOk?Object.entries(D.gosurf.rows).map(([h,r])=>[+h,r.wave[0],r.wave[1],r]).sort((a,b)=>a[0]-b[0])
+    :B.waves.filter(w=>w.h%3===0).map(w=>[w.h,Math.round(w.cm*0.6/10)*10,Math.round(w.cm/10)*10,{period:w.period}]);
+  const goMax=goRows.map(r=>[r[0],r[2]]);
+  const goAt=h=>{const r=goRows.filter(x=>x[0]<=h).pop()||goRows[0];return r?[r[1],r[2]]:[0,0]};
+  const omAt=h=>{if(!omOk)return null;const r=B.waves.find(x=>x.h===Math.floor(h));return r?Math.round(r.cm/5)*5:null};
+  const waveAt=h=>lerp(goMax,h);
+  // רוח
+  const WG=(wgOk?D.windguru.points:B.wind).slice().sort((a,b)=>a[0]-b[0]);
+  const WIND=WG.map(w=>[w[0],w[1]]),GUST=WG.map(w=>[w[0],w[2]]);
+  const wgAt=h=>WG.reduce((a,w)=>Math.abs(w[0]-h)<Math.abs(a[0]-h)?w:a,WG[0]);
+  const [sh,sm]=D.sunset.split(':').map(Number),SUNSET=sh+sm/60;
+  const evalSlot=st=>{const hs=[st,st+.5,st+1],wind=Math.max(...hs.map(h=>lerp(WIND,h))),gust=Math.max(...hs.map(h=>lerp(GUST,h))),wave=Math.max(...hs.map(waveAt));return{st,windRaw:wind,wind:Math.ceil(wind-0.05),gust:Math.ceil(gust-0.05),wave:Math.round(wave/5)*5,score:wind*2+gust+wave/10,from:onshore(wgAt(st+.5)[3])?'מהים':'מהיבשה'}};
+  const vOf=r=>verdict(r.windRaw,r.wave);
+  const pick=starts=>{const all=starts.map(evalSlot),best=all.reduce((a,b)=>b.score<a.score-0.01?b:a);best.alts=all.filter(x=>x!==best&&vOf(x)[0]===vOf(best)[0]&&x.wind-best.wind<=1&&x.wave-best.wave<=10).map(x=>fmt(x.st));return best};
+  const s1=pick(range(7,7.5)),s2=pick(range(Math.max(8,s1.st+1),10)),s3=evalSlot(Math.floor((SUNSET-1)*2)/2);
+  const res=[['סשן ראשון',s1,'נבחר מתוך התחלה בין 07:00 ל־07:30'],['סשן שני',s2,'נבחר מתוך התחלה בין 08:00 ל־10:00'],['חתירת שקיעה',s3,`שעה לפני השקיעה (${D.sunset}), מעוגל לחצי שעה`]].map(([n,r,why])=>({n,why,...r,t:fmt(r.st)+' עד '+fmt(r.st+1),v:vOf(r)}));
+  $('sessions').innerHTML=res.map(r=>`<div class="sess ${r.v[0]}"><div class="st"><b>${r.n}</b></div><div class="time">${r.t}</div><div class="why">${esc(r.why)}</div><div class="sv">${r.v[1]}</div>${r.alts&&r.alts.length?`<div class="alt">אפשר גם: ${r.alts.join(' · ')} (תנאים כמעט זהים)</div>`:''}<div class="r"><span>גלים</span><span>עד ${r.wave} ס"מ</span></div><div class="r"><span>רוח</span><span>עד ${r.wind} קש' ${r.from}</span></div><div class="r"><span>מכות רוח</span><span>עד ${r.gust} קש'</span></div></div>`).join('');
+  const morning=res.slice(0,2),allTop=morning.every(r=>r.v[0]==='top'),anyNo=morning.some(r=>r.v[0]==='no'),anyMid=morning.some(r=>r.v[0]==='mid');
+  const go=$('go');go.hidden=false;go.textContent=anyNo?'✕ מבטלים את סשני הבוקר':anyMid?'! לשיקולכם':'✓ יוצאים לחתירה';
+  if(anyNo){go.style.background='#d93a3f';go.style.color='#fff'}else if(anyMid){go.style.background='#d99a00';go.style.color='#111'}
+  $('exc').hidden=!allTop;
+  $('whyWord').textContent=anyNo?'מבטלים':anyMid?'לשיקולכם':'יוצאים';
+  // שעה אחרי שעה
+  const best=[...new Set([s1.st,s1.st+.5,s2.st,s2.st+.5].map(Math.floor))];
+  $('hours').innerHTML=[6,7,8,9,10,11].map(h=>{const g=goAt(h),w=wgAt(h),v=verdict(w[1],g[1]);return`<div class="h${best.includes(h)?' best':''}"><b>${pad(h)}:00</b><div class="r"><span>${goOk?'GoSurf':'גלים (גיבוי)'}</span><span>${g[1]?g[0]+' עד '+g[1]+' ס"מ':'פלטה'}</span></div><div class="r"><span>רוח</span><span>${w[1]} קש' ${onshore(w[3])?'מהים':'מהיבשה'}</span></div><span class="tag${v[0]==='top'?' top':''}">${v[1]}</span></div>`}).join('');
+  // כותרת וטקסט
+  const day=WG.filter(w=>w[0]>=6&&w[0]<=17),dMax=Math.max(...day.map(w=>w[1])),dGust=Math.max(...day.map(w=>w[2]));
+  const mWind=[s1.wind,s2.wind],mWave=Math.max(s1.wave,s2.wave);
+  const seaWord=mWave<=10?'ים שטוח':mWave<=50?'ים נוח':mWave<=70?'ים גלי':'ים גבוה';
+  const tail=allTop?'יום מעולה לקבוצות.':anyNo?'עדיף לבטל.':anyMid?'קרוב לגבול, החלטה שלכם.':'אפשר לצאת עם קבוצות.';
+  const wr=Math.min(...mWind)===Math.max(...mWind)?Math.max(...mWind):Math.min(...mWind)+'–'+Math.max(...mWind);
+  $('h1').textContent=`בסשנים של הבוקר: ${seaWord} ורוח של ${wr} קשרים. ${tail}`;
+  const goM=goAt(7),omM=omOk?Math.max(...[6,7,8,9,10,11].map(h=>omAt(h)||0)):null,turn=day.find(w=>onshore(w[3])&&w[1]>=5);
+  $('lead').textContent=[
+    goOk?`GoSurf: גלים של ${goM[0]} עד ${goM[1]} ס"מ בבוקר.`:'GoSurf לא התעדכן, הגלים מגיבוי.',
+    `${wgOk?'לפי Windguru':'לפי הגיבוי'} הרוח לא עוברת ${dMax} קשרים בשעות האור.`,
+    turn?`מ־${pad(turn[0])}:00 בריזה מהים.`:''].filter(Boolean).join(' ');
+  $('pills').innerHTML=`<span class="pill">רוח מקסימלית: <b>${dMax} קש' (מכות רוח עד ${dGust})</b></span><span class="pill">זריחה <b>${esc(D.sunrise)}</b> · שקיעה <b>${esc(D.sunset)}</b></span>`;
+  // מקורות
+  const bk='<span class="bk">גיבוי: Open‑Meteo</span>';
+  const goDay=goRows.filter(r=>r[0]>=6&&r[0]<=15);
+  const cards=[];
+  if(goOk){const r6=D.gosurf.rows[6]||goRows[0][3],r15=D.gosurf.rows[15];cards.push(`<div class="card"><h3>GoSurf</h3><div class="role">גלים</div><div class="v">${Math.min(...goDay.map(r=>r[1]))} עד ${Math.max(...goDay.map(r=>r[2]))} ס"מ</div><p>${esc(D.gosurf.summary||'')}${r6?` סוואל ${esc(r6.swellDir)} של ${r6.swellCm} ס"מ ב־06:00${r15?` ו־${r15.swellCm} ס"מ ב־15:00`:''}, מחזור ${r6.period} שניות.`:''}</p><p class="note"><a href="https://www.gosurf.co.il/forecast/beit-yanai">gosurf.co.il · בית ינאי</a></p></div>`)}
+  else cards.push(`<div class="card"><h3>GoSurf ${bk}</h3><div class="role">גלים</div><p>GoSurf לא ענה בשליפה האחרונה. הגלים בדף מגיעים מ־Open‑Meteo עד שיחזור.</p></div>`);
+  const am=WG.filter(w=>w[0]>=5&&w[0]<=9),aft=WG.filter(w=>w[0]>=13&&w[0]<=15);
+  cards.push(`<div class="card"><h3>Windguru${wgOk?'':' '+bk}</h3><div class="role">רוח</div><div class="v">${Math.min(...day.map(w=>w[1]))} עד ${dMax} קשרים</div><p>בבוקר מ${dirName(am[1]?am[1][3]:am[0][3])} ${onshore((am[1]||am[0])[3])?'(מהים)':'(מהיבשה)'} ${Math.min(...am.map(w=>w[1]))}–${Math.max(...am.map(w=>w[1]))} קשרים. ${aft.length?`בצהריים מ${dirName(aft[0][3])} ${Math.max(...aft.map(w=>w[1]))} קשרים עם מכות רוח עד ${Math.max(...aft.map(w=>w[2]))}.`:''}</p>${wgOk?'<p class="note"><a href="https://www.windguru.cz/771">windguru.cz · Beit Yannai</a></p>':''}</div>`);
+  $('src').innerHTML=cards.join('');
+  // למה
+  $('why').innerHTML=[
+    `<b>גלים:</b> ${seaWord} בבוקר, עד ${mWave} ס"מ בסשנים.${mWave>70?' זה מעל הגבול של 70 ס"מ.':''}`,
+    `<b>רוח:</b> עד ${Math.max(...mWind)} קשרים בסשנים של הבוקר, ${s1.from}.${s1.from==='מהיבשה'?' שווה לשמור על הקבוצה קרוב לחוף ולא לתת לה להיסחף פנימה.':''}${Math.max(...mWind)>12?' זה מעל הגבול של 12 קשרים.':''}`,
+    turn?`<b>אחר הצהריים:</b> מ־${pad(turn[0])}:00 רוח מהים של עד ${Math.max(...aft.map(w=>w[1]),turn[1])} קשרים.`:'',
+    `<b>חתירת שקיעה:</b> ${s3.v?'':''}${fmt(s3.st)} עד ${fmt(s3.st+1)}: רוח עד ${s3.wind} קשרים ${s3.from}, גלים עד ${s3.wave} ס"מ. ${res[2].v[1].replace('★ ','')}.`
+  ].filter(Boolean).map(t=>`<li>${t}</li>`).join('');
+  // חותמת זמן ותוקף
+  const gen=new Date(D.generatedAt),genTxt=new Intl.DateTimeFormat('he-IL',{timeZone:'Asia/Jerusalem',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}).format(gen);
+  const ok=[goOk&&'GoSurf',wgOk&&'Windguru'].filter(Boolean),bad=[!goOk&&'GoSurf',!wgOk&&'Windguru'].filter(Boolean);
+  $('stamp').textContent=`נשלף ב־${genTxt} (שעון ישראל) מ־${ok.join(', ')||'Open‑Meteo בלבד'}.${bad.length?` לא ענו: ${bad.join(', ')}, הוחלפו בגיבוי מ־Open‑Meteo.`:''} הדף מתעדכן אוטומטית כל ערב.`;
+  const dateTxt=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(D.date+'T12:00:00Z'));
+  $('date').textContent=`${dateTxt} · תחזית בית ינאי`;
+  const todayIL=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem'}).format(new Date());
+  if(D.date<=todayIL){$('warn').hidden=false;$('warn').textContent=`שימו לב: התחזית הזו היא ל${dateTxt}, והיא לא התעדכנה מאז. כנראה שהעדכון האוטומטי נכשל.`}
+}
+fetch('data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(render).catch(e=>{$('date').textContent='לא הצלחתי לטעון את התחזית. נסו לרענן בעוד כמה דקות.';console.error(e)});
+}
+</script>
+</body>
+</html>

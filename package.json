@@ -1,0 +1,11 @@
+{
+  "name": "supaway-forecast",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.48.2"
+  }
+}
